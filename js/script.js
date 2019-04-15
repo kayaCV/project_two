@@ -15,11 +15,14 @@ FSJS project 2 - List Filter and Pagination
    going to create. A good general rule of thumb is if the variable 
    will only be used inside of a function, then it can be locally 
    scoped to that function.
-***/
+
+   ***/
+
+const students = document.getElementsByClassName('student-item cf');
+const itemsPerPage = 10;
 
 
-
-
+//console.log(students);
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -35,13 +38,28 @@ FSJS project 2 - List Filter and Pagination
        "invoke" the function 
 ***/
 
+const showPage = (list, page) => {
+   let startIndex = (page * itemsPerPage) - itemsPerPage;
+   console.log(startIndex);
+   let endIndex = page * itemsPerPage;
+   console.log(endIndex);
+   for (let i = 0; i < list.length; i++) {
+      if ( startIndex <= i &&  i < endIndex) {
+         list[i].style.display = 'list-item';
+         } else { list[i].style.display = 'none';
+      }
+   
+   }
 
-
+}
+showPage(students, 3);
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+
+
 
 
 
