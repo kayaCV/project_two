@@ -18,11 +18,10 @@ FSJS project 2 - List Filter and Pagination
 
    ***/
 
-const students = document.getElementsByClassName('student-item cf');
+const listElements = document.getElementsByClassName("student-item cf");
 const itemsPerPage = 10;
 
 
-//console.log(students);
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -40,29 +39,73 @@ const itemsPerPage = 10;
 
 const showPage = (list, page) => {
    let startIndex = (page * itemsPerPage) - itemsPerPage;
-   console.log(startIndex);
    let endIndex = page * itemsPerPage;
-   console.log(endIndex);
    for (let i = 0; i < list.length; i++) {
       if ( startIndex <= i &&  i < endIndex) {
          list[i].style.display = 'list-item';
          } else { list[i].style.display = 'none';
-      }
-   
-   }
+      } ; 
+   };
+};
 
-}
-showPage(students, 3);
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+const appendPageLinks = (list) => {
 
+   /*  1. Determine how many pages are needed*/
+   const numberOfPages = Math.ceil(list.length/itemsPerPage);
+   const page = document.querySelector('.page');
 
+   showPage(list,1);
 
+   //2. Create a div, give it the “pagination” class, and append it to the .page div
+   const pagination = document.createElement('DIV');
+   pagination.className = 'pagination';
+   page.appendChild(pagination);
 
+   // 3. Add a ul to the “pagination” div to store the pagination links
+   const paginationLinks = document.createElement('UL');
+   paginationLinks.className = 'paginationLinks';
+   pagination.appendChild(paginationLinks);
 
+   // 4. for every page, add li and a tags with the page number text
+   for(let i = 0; i < numberOfPages; i++) {
+      const pageNumber = document.createElement('LI');
+      pageNumber.className = 'pageNumber';
+      pageNumber.innerHTML = `<a href="#">${i+1}</a>`;
+      paginationLinks.appendChild(pageNumber);
+   }
+   
+   // call the showPage function When a tag is clicked
+   for(let i = 0; i < numberOfPages; i++) {
+      aLinks = document.querySelectorAll('a');
+      aLinks[i].addEventListener('click', (event) => {
+         showPage(listElements, i+1);
+         removeActiveClass();
+         addActiveClass(event);
+      });
+   }
+   // 6. Loop over pagination links to remove active class from all links
+   const removeActiveClass = () => {
+      for(let i = 0; i < numberOfPages; i++) {
+         let activeLinks = document.querySelectorAll('.paginationLinks a');
+         activeLinks[i].className = '';
+      }      
+   }
+   
+// Add the active class to the link that was just clicked
+   const addActiveClass = (event) => event.target.className = 'active';
+};
+appendPageLinks(listElements);
 
+/*
+<div class="student-search">
+          <input placeholder="Search for students...">
+          <button>Search</button>
+        </div>
 
+*/
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
