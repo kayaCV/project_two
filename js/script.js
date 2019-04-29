@@ -76,7 +76,7 @@ const createSearchTools = () => {
       paginationLinks.parentNode.removeChild(paginationLinks)
    }   
 
-   button.addEventListener('click', (e) => {
+   const search = () => {
       removePageLinks();
       message.style.display = 'none';
       const searchTerm = searchBar.value.toLowerCase();
@@ -98,6 +98,13 @@ const createSearchTools = () => {
       if(searchResults.length === 0) {         
          message.style.display = '';
       } 
+
+   }
+   button.addEventListener('click', (e) => {
+      search();
+   });
+   searchBar.addEventListener('keyup', () => {
+      search();
    }); 
 } 
 createSearchTools();
