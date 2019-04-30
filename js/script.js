@@ -6,8 +6,7 @@ FSJS project 2 - List Filter and Pagination
 // Global variables.
 const listElements = document.getElementsByClassName("student-item cf");
 const itemsPerPage = 10;
-const page = document.querySelector('.page');  // try
-
+const page = document.querySelector('.page');
 
 // Hide all of the items in the list except for the ten you want to show.
 const showPage = (list, page) => {
@@ -15,7 +14,7 @@ const showPage = (list, page) => {
    let endIndex = page * itemsPerPage;
    for (let i = 0; i < list.length; i++) {
       if ( startIndex <= i &&  i < endIndex) {
-         list[i].style.display = 'list-item';
+         list[i].style.display = '';
       } else { 
          list[i].style.display = 'none';
       }
@@ -37,11 +36,10 @@ const appendPageLinks = list => {
    const paginationLinks = createAndAppend('UL', 'className', 'paginationLinks', pagination);  
 
    for(let i = 0; i < numOfPages; i++) {
-      const pageNumber = createAndAppend('LI', 'className', 'pageNumber', paginationLinks);
+      const pageNumber = createAndAppend('LI', 'className', 'page-number', paginationLinks);
       pageNumber.innerHTML = `<a href="#">${i+1}</a>`;
-   }
-   for(let i = 0; i < numOfPages; i++) {
       const aLinks = document.querySelectorAll('a');
+      aLinks[0].className = 'active';
       aLinks[i].addEventListener('click', (event) => {
          showPage(list, i+1);
          activeClass.remove(numOfPages);
@@ -62,7 +60,7 @@ const appendPageLinks = list => {
 appendPageLinks(listElements);
 
 //   Create search tools and add functionality
-const createSearchTools = () => {
+const createSearch = () => {
    const header = document.querySelector('.page-header');
    const searchDiv = createAndAppend('DIV', 'className', 'student-search', header);
    const searchBar = createAndAppend('INPUT', 'placeholder', 'Search by name...', searchDiv);
@@ -71,13 +69,9 @@ const createSearchTools = () => {
    const message = createAndAppend('p', 'textContent', 'No matches found...', page); // try
    message.style.display = 'none';
 
-   const removePageLinks = () => {
-      const paginationLinks = document.getElementsByClassName('pagination')[0];
-      paginationLinks.parentNode.removeChild(paginationLinks)
-   }   
-
    const search = () => {
-      removePageLinks();
+      const paginationLinks = document.getElementsByClassName('pagination')[0];
+      paginationLinks.parentNode.removeChild(paginationLinks);
       message.style.display = 'none';
       const searchTerm = searchBar.value.toLowerCase();
       const listNames = document.getElementsByTagName('h3');
@@ -98,13 +92,12 @@ const createSearchTools = () => {
       if(searchResults.length === 0) {         
          message.style.display = '';
       } 
-
    }
-   button.addEventListener('click', (e) => {
+   button.addEventListener('click', () => {
       search();
    });
    searchBar.addEventListener('keyup', () => {
       search();
    }); 
 } 
-createSearchTools();
+createSearch();
